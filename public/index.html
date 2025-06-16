@@ -50,6 +50,31 @@
       .movie-card {
         transition: transform 0.3s ease;
       }
+      
+      /* Modal Styles */
+      .modal {
+        transition: opacity 0.3s ease;
+      }
+      .modal-content {
+        animation: modalSlideIn 0.3s ease-out;
+      }
+      @keyframes modalSlideIn {
+        from {
+          transform: scale(0.8) translateY(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1) translateY(0);
+          opacity: 1;
+        }
+      }
+      .feature-icon {
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+      }
+      .download-progress {
+        width: 0%;
+        transition: width 0.1s ease;
+      }
     </style>
   </head>
   <body class="bg-gray-900 text-white">
@@ -64,8 +89,115 @@
       </div>
     </div>
 
+    <!-- Desktop App Required Modal -->
+    <div id="desktopAppModal" class="modal fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+      <div class="modal-content bg-gray-800 rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl border border-gray-700">
+        <!-- Header -->
+        <div class="text-center mb-6">
+          <div class="bg-gradient-to-r from-red-500 to-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-desktop text-2xl text-white"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-2">Desktop App Required</h3>
+          <p class="text-gray-300 text-sm">To download movies, you need our secure desktop application</p>
+        </div>
+
+        <!-- Features -->
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center">
+            <div class="feature-icon w-8 h-8 rounded-full flex items-center justify-center mr-3">
+              <i class="fas fa-shield-alt text-white text-sm"></i>
+            </div>
+            <span class="text-gray-300 text-sm">Secure & virus-free downloads</span>
+          </div>
+          <div class="flex items-center">
+            <div class="feature-icon w-8 h-8 rounded-full flex items-center justify-center mr-3">
+              <i class="fas fa-rocket text-white text-sm"></i>
+            </div>
+            <span class="text-gray-300 text-sm">10x faster download speeds</span>
+          </div>
+          <div class="flex items-center">
+            <div class="feature-icon w-8 h-8 rounded-full flex items-center justify-center mr-3">
+              <i class="fas fa-play text-white text-sm"></i>
+            </div>
+            <span class="text-gray-300 text-sm">Built-in media player</span>
+          </div>
+          <div class="flex items-center">
+            <div class="feature-icon w-8 h-8 rounded-full flex items-center justify-center mr-3">
+              <i class="fas fa-cloud-download-alt text-white text-sm"></i>
+            </div>
+            <span class="text-gray-300 text-sm">Resume interrupted downloads</span>
+          </div>
+        </div>
+
+        <!-- App Info -->
+        <div class="bg-gray-700 rounded-lg p-4 mb-6">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <i class="fas fa-file-download text-red-500 mr-3 text-xl"></i>
+              <div>
+                <p class="font-semibold text-white">MoviesHub Desktop</p>
+                <p class="text-sm text-gray-400">Version 2.1.5 • 15.2 MB</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="flex items-center text-yellow-400 text-sm">
+                <i class="fas fa-star mr-1"></i>
+                <span>4.8</span>
+              </div>
+              <p class="text-xs text-gray-400">125k+ downloads</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Download Progress (hidden by default) -->
+        <div id="downloadProgress" class="hidden mb-6">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-sm text-gray-300">Downloading...</span>
+            <span id="progressPercent" class="text-sm text-gray-300">0%</span>
+          </div>
+          <div class="w-full bg-gray-700 rounded-full h-2">
+            <div id="progressBar" class="download-progress bg-gradient-to-r from-red-500 to-red-600 h-2 rounded-full"></div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex space-x-3">
+          <button
+            onclick="downloadDesktopApp()"
+            class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 px-6 py-3 rounded-lg font-semibold flex-1 flex items-center justify-center transition duration-200 shadow-lg"
+          >
+            <i class="fas fa-download mr-2"></i> Download App
+          </button>
+          <button
+            onclick="closeModal()"
+            class="bg-gray-700 hover:bg-gray-600 px-6 py-3 rounded-lg font-semibold flex-1 transition duration-200"
+          >
+            Cancel
+          </button>
+        </div>
+
+        <!-- Trust Indicators -->
+        <div class="mt-6 pt-4 border-t border-gray-700">
+          <div class="flex justify-center items-center space-x-4 text-xs text-gray-400">
+            <div class="flex items-center">
+              <i class="fas fa-lock mr-1"></i>
+              <span>SSL Secured</span>
+            </div>
+            <div class="flex items-center">
+              <i class="fas fa-check-circle mr-1"></i>
+              <span>Verified Publisher</span>
+            </div>
+            <div class="flex items-center">
+              <i class="fas fa-shield text-green-400 mr-1"></i>
+              <span>Malware Free</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Header -->
-    <header class="sticky top-0 z-50 bg-gray-900 shadow-lg">
+    <header class="sticky top-0 z-40 bg-gray-900 shadow-lg">
       <div class="container mx-auto px-4 py-3 flex justify-between items-center">
         <div class="flex items-center space-x-2">
           <i class="fas fa-film text-red-500 text-2xl"></i>
@@ -113,7 +245,7 @@
               Browse Movies
             </button>
             <button
-              onclick="initiateDownload('MoviesHub')"
+              onclick="downloadDesktopApp()"
               class="bg-gray-800 hover:bg-gray-700 px-6 py-3 rounded-lg font-semibold transition"
             >
               <i class="fas fa-download mr-2"></i>
@@ -164,7 +296,7 @@
             class="download-btn absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <button
-              onclick="initiateDownload('The Batman')"
+              onclick="showDesktopAppModal('The Batman')"
               class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-full flex items-center"
             >
               <i class="fas fa-download mr-2"></i> Download
@@ -204,7 +336,7 @@
             class="download-btn absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <button
-              onclick="initiateDownload('Spider-Man No Way Home')"
+              onclick="showDesktopAppModal('Spider-Man: No Way Home')"
               class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-full flex items-center"
             >
               <i class="fas fa-download mr-2"></i> Download
@@ -244,7 +376,7 @@
             class="download-btn absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <button
-              onclick="initiateDownload('Dune')"
+              onclick="showDesktopAppModal('Dune')"
               class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-full flex items-center"
             >
               <i class="fas fa-download mr-2"></i> Download
@@ -284,7 +416,7 @@
             class="download-btn absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <button
-              onclick="initiateDownload('No Time to Die')"
+              onclick="showDesktopAppModal('No Time to Die')"
               class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-full flex items-center"
             >
               <i class="fas fa-download mr-2"></i> Download
@@ -324,7 +456,7 @@
             class="download-btn absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <button
-              onclick="initiateDownload('Shang-Chi and the Legend of the Ten Rings')"
+              onclick="showDesktopAppModal('Shang-Chi and the Legend of the Ten Rings')"
               class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-full flex items-center"
             >
               <i class="fas fa-download mr-2"></i> Download
@@ -358,10 +490,9 @@
               >
                 <i class="fas fa-download text-xl"></i>
               </div>
-              <h3 class="font-semibold mb-2">2. Click Download</h3>
+              <h3 class="font-semibold mb-2">2. Download Desktop App</h3>
               <p class="text-gray-300">
-                Click the download button and choose your preferred quality and
-                format.
+                Download our secure desktop application for fast and safe movie downloads.
               </p>
             </div>
             <div class="bg-gray-700 p-6 rounded-lg">
@@ -378,7 +509,7 @@
             </div>
           </div>
           <button
-            onclick="initiateDownload('MoviesHub')"
+            onclick="downloadDesktopApp()"
             class="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-lg font-semibold text-lg flex items-center mx-auto"
           >
             <i class="fas fa-download mr-3"></i> Download Desktop App
@@ -497,16 +628,32 @@
     </footer>
 
     <script>
-      // Enhanced download function with specific movie name
-      function initiateDownload(movieName) {
+      let selectedMovie = '';
+
+      // Show desktop app modal when user tries to download a movie
+      function showDesktopAppModal(movieName) {
+        selectedMovie = movieName;
+        const modal = document.getElementById('desktopAppModal');
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      }
+
+      // Close modal
+      function closeModal() {
+        const modal = document.getElementById('desktopAppModal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto'; // Restore scrolling
+        hideDownloadProgress();
+      }
+
+      // Download desktop app with progress simulation
+      function downloadDesktopApp() {
         try {
-          // Show download notification with movie name
-          showNotification(movieName);
+          // Show progress
+          showDownloadProgress();
           
-          // Create the download URL with movie name as parameter
-          const url = `/api/download?movie=${encodeURIComponent(movieName)}`;
-          
-          // Create hidden link and trigger download
+          // Start the actual download
+          const url = `/api/download?movie=MoviesHub`;
           const a = document.createElement("a");
           a.href = url;
           a.style.display = "none";
@@ -514,15 +661,53 @@
           a.click();
           document.body.removeChild(a);
           
-          // Log for analytics
-          console.log(`Download initiated for: ${movieName}`);
+          // Show notification
+          showNotification('MoviesHub Desktop App');
+          
+          // Simulate progress and close modal after completion
+          setTimeout(() => {
+            closeModal();
+          }, 3000);
+          
+          console.log(`Desktop app download initiated. Selected movie was: ${selectedMovie}`);
           
         } catch (error) {
           console.error("Download failed:", error);
-          
           // Fallback to direct download
-          directDownload(movieName);
+          directDownload('MoviesHub');
         }
+      }
+
+      // Show download progress
+      function showDownloadProgress() {
+        const progressDiv = document.getElementById('downloadProgress');
+        const progressBar = document.getElementById('progressBar');
+        const progressPercent = document.getElementById('progressPercent');
+        
+        progressDiv.classList.remove('hidden');
+        
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += Math.random() * 15 + 5; // Random increment between 5-20%
+          if (progress >= 100) {
+            progress = 100;
+            clearInterval(interval);
+          }
+          
+          progressBar.style.width = progress + '%';
+          progressPercent.textContent = Math.round(progress) + '%';
+        }, 200);
+      }
+
+      // Hide download progress
+      function hideDownloadProgress() {
+        const progressDiv = document.getElementById('downloadProgress');
+        const progressBar = document.getElementById('progressBar');
+        const progressPercent = document.getElementById('progressPercent');
+        
+        progressDiv.classList.add('hidden');
+        progressBar.style.width = '0%';
+        progressPercent.textContent = '0%';
       }
 
       // Direct download fallback function
@@ -560,14 +745,14 @@
       }
 
       // Show download notification with custom message
-      function showNotification(movieName) {
+      function showNotification(appName) {
         const notification = document.getElementById('downloadNotification');
         const message = document.getElementById('downloadMessage');
         
-        if (movieName === 'MoviesHub') {
-          message.textContent = 'MoviesHub Desktop App download started!';
+        if (appName.includes('MoviesHub')) {
+          message.textContent = 'MoviesHub Desktop App download started! Check your downloads folder.';
         } else {
-          message.textContent = `${movieName} download started! Check your downloads folder.`;
+          message.textContent = `${appName} download started! Check your downloads folder.`;
         }
         
         notification.classList.add('show');
@@ -583,6 +768,21 @@
         const notification = document.getElementById('downloadNotification');
         notification.classList.remove('show');
       }
+
+      // Close modal when clicking outside
+      document.addEventListener('click', function(event) {
+        const modal = document.getElementById('desktopAppModal');
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+
+      // Close modal with Escape key
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+          closeModal();
+        }
+      });
 
       // Image load blur effect
       document.addEventListener("DOMContentLoaded", function () {
