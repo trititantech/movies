@@ -37,16 +37,20 @@
         transition: opacity 200ms ease-in-out;
       }
       .download-notification {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
-        transform: translateX(400px);
-        transition: transform 0.3s ease;
-      }
-      .download-notification.show {
-        transform: translateX(0);
-      }
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+    .download-notification.show {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+}
       .movie-card {
         transition: transform 0.3s ease;
       }
